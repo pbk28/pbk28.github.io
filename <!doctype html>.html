@@ -1,0 +1,154 @@
+<!doctype html> 
+<html lang=”en”>
+
+<head>
+	
+	<meta charset=”utf-8”>
+	<meta name=”viewport” content=”width=device-width, initial-scale=1”>
+	
+
+	<link rel=”stylesheet” href=”style.css”>
+	
+	<title>Daily Water Intake Tracker</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            border: 2px solid #007BFF;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            width: 100px;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 20px;
+            height: 30px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4caf50;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Water Tracker</h1>
+        <p>Track the amount of water you drink in a day!</p>
+        <p> </p>
+
+        <!-- Daily Goal -->
+        <p><strong>Daily Goal: 3.7 Liters</strong></p>
+
+        <!-- Input for amount of water consumed -->
+        <label for="waterInput">Amount Drunk (in mL):</label>
+        <input type="number" id="waterInput" placeholder="Enter mL" min="0">
+        <button id="addWaterBtn">Add Water</button>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <!-- Reset Button -->
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <script>
+        // Constants
+        const DAILY_GOAL = 2000; // Goal in mL (2 Liters)
+
+        // Get DOM elements
+        const waterInput = document.getElementById('waterInput');
+        const addWaterBtn = document.getElementById('addWaterBtn');
+        const progressBar = document.getElementById('progressBar');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Initialize state
+        let totalWaterConsumed = 0;
+
+        // Function to update the progress bar
+        function updateProgressBar() {
+            const progressPercentage = (totalWaterConsumed / DAILY_GOAL) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        // Function to handle adding water
+        function addWater() {
+            const waterAmount = parseInt(waterInput.value);
+
+            if (isNaN(waterAmount) || waterAmount <= 0) {
+                alert("Please enter a valid amount of water.");
+                return;
+            }
+
+            totalWaterConsumed += waterAmount;
+
+            if (totalWaterConsumed > DAILY_GOAL) {
+                totalWaterConsumed = DAILY_GOAL; // Cap the water at the goal
+            }
+
+            updateProgressBar();
+            waterInput.value = ''; // Clear the input field
+        }
+
+        // Function to reset progress
+        function resetTracker() {
+            totalWaterConsumed = 0;
+            updateProgressBar();
+        }
+
+        // Event Listeners
+        addWaterBtn.addEventListener('click', addWater);
+        resetBtn.addEventListener('click', resetTracker);
+    </script>
+</body>
+</html>
+
